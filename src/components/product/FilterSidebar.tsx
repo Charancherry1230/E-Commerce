@@ -1,12 +1,24 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronDown, SlidersHorizontal, X } from 'lucide-react'
 
 export function FilterSidebar() {
     const [isOpen, setIsOpen] = useState(false)
     const [priceRange, setPriceRange] = useState(5000)
+    // Track whether we're on a desktop viewport — starts false (SSR-safe)
+    const [isDesktop, setIsDesktop] = useState(false)
+
+    // Only runs on the client, so no hydration mismatch
+    useEffect(() => {
+        const checkDesktop = () => setIsDesktop(window.innerWidth >= 768)
+        checkDesktop()
+        window.addEventListener('resize', checkDesktop)
+        return () => window.removeEventListener('resize', checkDesktop)
+    }, [])
+
+    const showSidebar = isOpen || isDesktop
 
     return (
         <>
@@ -21,7 +33,7 @@ export function FilterSidebar() {
 
             {/* Desktop Sidebar & Mobile Drawer */}
             <AnimatePresence>
-                {(isOpen || typeof window !== 'undefined' && window.innerWidth >= 768) && (
+                {showSidebar && (
                     <motion.aside
                         initial={{ x: '-100%', opacity: 0 }}
                         animate={{ x: 0, opacity: 1 }}
