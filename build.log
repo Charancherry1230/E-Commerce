@@ -1,0 +1,43 @@
+
+> app-temp@0.1.0 build
+> next build
+
+Γû▓ Next.js 16.1.6 (Turbopack)
+- Environments: .env
+
+  Creating an optimized production build ...
+Γ£ô Compiled successfully in 5.2s
+  Running TypeScript ...
+  Collecting page data using 11 workers ...
+  Generating static pages using 11 workers (0/6) ...
+  Generating static pages using 11 workers (1/6) 
+  Generating static pages using 11 workers (2/6) 
+  Generating static pages using 11 workers (4/6) 
+Error fetching trending products: Error [PrismaClientInitializationError]: 
+Invalid `prisma.product.findMany()` invocation:
+
+
+Authentication failed against database server, the provided database credentials for `postgres` are not valid.
+
+Please make sure to provide valid database credentials for the database server at the configured address.
+    at async e (C:\Users\saisr\Documents\GitHub\E-Commerce\.next\server\chunks\ssr\[root-of-the-server]__27d8a1e1._.js:2:418)
+    at async f (C:\Users\saisr\Documents\GitHub\E-Commerce\.next\server\chunks\ssr\[root-of-the-server]__148245cd._.js:1:2146) {
+  clientVersion: '6.19.2',
+  errorCode: undefined,
+  retryable: undefined
+}
+Γ£ô Generating static pages using 11 workers (6/6) in 3.1s
+  Finalizing page optimization ...
+
+Route (app)
+Γöî Γùï /
+Γö£ Γùï /_not-found
+Γö£ ╞Æ /api/razorpay
+Γö£ ╞Æ /category/[slug]
+Γö£ Γùï /checkout
+Γöö ╞Æ /product/[slug]
+
+
+Γùï  (Static)   prerendered as static content
+╞Æ  (Dynamic)  server-rendered on demand
+
