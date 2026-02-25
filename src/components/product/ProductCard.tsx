@@ -54,6 +54,7 @@ export function ProductCard({ product }: ProductProps) {
                     src={defaultImg}
                     alt={product.title}
                     fill
+                    unoptimized={true}
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     className={`object-cover transition-opacity duration-500 ease-in-out ${isHovered ? 'opacity-0' : 'opacity-100'}`}
                 />
@@ -61,6 +62,7 @@ export function ProductCard({ product }: ProductProps) {
                     src={hoverImg}
                     alt={`${product.title} back view`}
                     fill
+                    unoptimized={true}
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     className={`object-cover absolute inset-0 transition-all duration-700 ease-in-out ${isHovered ? 'opacity-100 scale-105' : 'opacity-0 scale-100'
                         }`}

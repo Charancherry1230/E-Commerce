@@ -55,7 +55,7 @@ export default function ProductDetailPage() {
                                 className={`relative w-20 h-24 md:w-24 md:h-32 shrink-0 border-2 transition-all ${activeImage === img.url ? 'border-amber-500 shadow-md' : 'border-transparent hover:border-slate-300'
                                     }`}
                             >
-                                <Image src={img.url} alt={`Thumbnail ${i}`} fill className="object-cover" />
+                                <Image src={img.url} alt={`Thumbnail ${i}`} fill unoptimized={true} className="object-cover" />
                             </button>
                         ))}
                     </div>
@@ -71,6 +71,7 @@ export default function ProductDetailPage() {
                                 alt={product.title}
                                 fill
                                 priority
+                                unoptimized={true}
                                 className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                             />
                         </motion.div>
@@ -113,8 +114,8 @@ export default function ProductDetailPage() {
                                     key={size}
                                     onClick={() => setSelectedSize(size)}
                                     className={`py-3 border text-sm font-semibold transition-all ${selectedSize === size
-                                            ? 'border-slate-900 bg-slate-900 text-white'
-                                            : 'border-slate-200 text-slate-700 hover:border-slate-900'
+                                        ? 'border-slate-900 bg-slate-900 text-white'
+                                        : 'border-slate-200 text-slate-700 hover:border-slate-900'
                                         }`}
                                 >
                                     {size}
@@ -136,8 +137,8 @@ export default function ProductDetailPage() {
                         <Button
                             disabled={!selectedSize}
                             className={`flex-1 text-lg py-8 uppercase tracking-widest font-bold rounded-none transition-all duration-300 ${selectedSize
-                                    ? 'bg-amber-500 hover:bg-amber-600 text-white shadow-xl shadow-amber-500/20'
-                                    : 'bg-slate-200 text-slate-400 cursor-not-allowed'
+                                ? 'bg-amber-500 hover:bg-amber-600 text-white shadow-xl shadow-amber-500/20'
+                                : 'bg-slate-200 text-slate-400 cursor-not-allowed'
                                 }`}
                         >
                             Add To Cart

@@ -31,6 +31,7 @@ export function Hero() {
                     alt="Premium Fashion Vibe"
                     fill
                     priority
+                    unoptimized={true}
                     sizes="100vw"
                     className="object-cover object-top opacity-50 parallax"
                 />
