@@ -17,7 +17,7 @@ const playfair = Playfair_Display({
 })
 
 export const metadata: Metadata = {
-  title: 'ELARA | Premium Fashion for India',
+  title: 'ZYRA | Premium Fashion for India',
   description: 'Luxury Indian fashion e-commerce experience.',
 }
 

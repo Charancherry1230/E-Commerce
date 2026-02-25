@@ -29,7 +29,7 @@ export default function SignInPage() {
             <div className="hidden lg:block relative w-1/2">
                 <Image
                     src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&q=80&w=1400"
-                    alt="ELARA Fashion"
+                    alt="ZYRA Fashion"
                     fill
                     unoptimized
                     className="object-cover"
@@ -40,7 +40,7 @@ export default function SignInPage() {
                     <h2 className="font-serif text-4xl leading-tight">Continue Your<br /><em className="font-light">Luxury Journey</em></h2>
                 </div>
                 <Link href="/" className="absolute top-8 left-10 text-white text-2xl font-serif font-bold tracking-widest hover:text-amber-400 transition-colors">
-                    ELARA
+                    ZYRA
                 </Link>
             </div>
 
@@ -48,7 +48,7 @@ export default function SignInPage() {
             <div className="w-full lg:w-1/2 flex items-center justify-center px-8 py-16 bg-white">
                 <div className="w-full max-w-md">
                     <Link href="/" className="lg:hidden text-2xl font-serif font-bold tracking-widest text-slate-900 mb-10 block">
-                        ELARA
+                        ZYRA
                     </Link>
 
                     <h1 className="font-serif text-3xl text-slate-900 mb-2">Sign In</h1>

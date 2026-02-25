@@ -29,7 +29,7 @@ export default function SignUpPage() {
             <div className="hidden lg:block relative w-1/2">
                 <Image
                     src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&q=80&w=1400"
-                    alt="ELARA Fashion"
+                    alt="ZYRA Fashion"
                     fill
                     unoptimized
                     className="object-cover"
@@ -37,10 +37,10 @@ export default function SignUpPage() {
                 <div className="absolute inset-0 bg-gradient-to-r from-slate-900/60 via-slate-900/20 to-transparent" />
                 <div className="absolute bottom-12 left-10 text-white">
                     <p className="text-amber-400 uppercase tracking-[0.3em] text-xs font-bold mb-3">New Member</p>
-                    <h2 className="font-serif text-4xl leading-tight">Begin Your<br /><em className="font-light">ELARA Story</em></h2>
+                    <h2 className="font-serif text-4xl leading-tight">Begin Your<br /><em className="font-light">ZYRA Story</em></h2>
                 </div>
                 <Link href="/" className="absolute top-8 left-10 text-white text-2xl font-serif font-bold tracking-widest hover:text-amber-400 transition-colors">
-                    ELARA
+                    ZYRA
                 </Link>
             </div>
 
@@ -48,7 +48,7 @@ export default function SignUpPage() {
             <div className="w-full lg:w-1/2 flex items-center justify-center px-8 py-16 bg-white">
                 <div className="w-full max-w-md">
                     <Link href="/" className="lg:hidden text-2xl font-serif font-bold tracking-widest text-slate-900 mb-10 block">
-                        ELARA
+                        ZYRA
                     </Link>
 
                     <h1 className="font-serif text-3xl text-slate-900 mb-2">Create Account</h1>
@@ -129,7 +129,7 @@ export default function SignUpPage() {
                         )}
 
                         <p className="text-xs text-slate-400">
-                            By creating an account, you agree to ELARA&apos;s{' '}
+                            By creating an account, you agree to ZYRA&apos;s{' '}
                             <span className="text-amber-500 cursor-pointer">Terms</span> &amp;{' '}
                             <span className="text-amber-500 cursor-pointer">Privacy Policy</span>.
                         </p>
