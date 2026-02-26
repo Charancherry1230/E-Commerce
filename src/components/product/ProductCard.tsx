@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ShoppingBag, Star } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { useCart } from '@/components/cart/CartProvider'
 
 type ProductProps = {
     product: {
@@ -16,6 +17,7 @@ type ProductProps = {
         originalPrice: number
         discountedPrice: number
         rating: number
+        sizes?: string[]
         images: { url: string; isDefault: boolean }[]
     }
 }
@@ -30,6 +32,7 @@ const formatPrice = (price: number) => {
 
 export function ProductCard({ product }: ProductProps) {
     const [isHovered, setIsHovered] = useState(false)
+    const { addItem } = useCart()
 
     const defaultImg = product.images.find(img => img.isDefault)?.url || product.images[0]?.url || ''
     const hoverImg = product.images.find(img => !img.isDefault)?.url || defaultImg
@@ -83,6 +86,18 @@ export function ProductCard({ product }: ProductProps) {
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: 10 }}
                             className="absolute bottom-4 left-4 right-4 z-20"
+                            onClick={(e) => {
+                                e.preventDefault() // prevent navigating to product page
+                                addItem({
+                                    id: product.id,
+                                    title: product.title,
+                                    price: product.discountedPrice,
+                                    image: defaultImg,
+                                    quantity: 1,
+                                    size: product.sizes?.[0] || 'M',
+                                    brand: product.brand
+                                })
+                            }}
                         >
                             <Button
                                 className="w-full bg-white/90 backdrop-blur text-slate-900 hover:bg-slate-900 hover:text-white transition-colors flex items-center gap-2 shadow-lg"

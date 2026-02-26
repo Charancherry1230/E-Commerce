@@ -32,8 +32,15 @@ export async function signUpAction(formData: FormData) {
         data: { name, email, password: hashed },
     })
 
-    // Auto sign-in after signup
-    await signIn('credentials', { email, password, redirectTo: '/' })
+    try {
+        // Auto sign-in after signup
+        await signIn('credentials', { email, password, redirectTo: '/' })
+    } catch (error) {
+        if (error instanceof AuthError) {
+            return { error: 'Invalid email or password.' }
+        }
+        throw error
+    }
 }
 
 export async function signInAction(formData: FormData) {

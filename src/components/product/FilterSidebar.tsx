@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useParams } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronDown, SlidersHorizontal, X } from 'lucide-react'
 
@@ -17,6 +18,20 @@ export function FilterSidebar() {
         window.addEventListener('resize', checkDesktop)
         return () => window.removeEventListener('resize', checkDesktop)
     }, [])
+
+    const params = useParams()
+    const categorySlug = params?.slug as string
+
+    // Determine subcategories based on slug
+    const menCategories = ['Shirts', 'T-Shirts', 'Jeans', 'Trousers', 'Kurtas', 'Blazers']
+    const womenCategories = ['Dresses', 'Tops & Shirts', 'Sarees', 'Kurtas & Suits', 'Lehengas', 'Bottoms']
+    const kidsCategories = ['T-Shirts', 'Shirts', 'Jeans', 'Dresses', 'Ethnic Wear', 'Sets']
+    const defaultCategories = ['New Arrivals', 'Bestsellers', 'Trending', 'Clearance']
+
+    let displayCategories = defaultCategories
+    if (categorySlug === 'men') displayCategories = menCategories
+    else if (categorySlug === 'women') displayCategories = womenCategories
+    else if (categorySlug === 'kids') displayCategories = kidsCategories
 
     const showSidebar = isOpen || isDesktop
 
@@ -59,7 +74,7 @@ export function FilterSidebar() {
                                     <ChevronDown className="w-4 h-4 text-slate-400" />
                                 </h3>
                                 <ul className="space-y-3 text-slate-600">
-                                    {['New Arrivals', 'Dresses', 'Tops & Shirts', 'Ethnic Wear', 'Bottoms', 'Accessories'].map(item => (
+                                    {displayCategories.map(item => (
                                         <li key={item} className="flex items-center gap-3 hover:text-amber-500 cursor-pointer transition-colors">
                                             <div className="w-4 h-4 border border-slate-300 rounded-sm" />
                                             <span className="text-sm">{item}</span>

@@ -7,6 +7,7 @@ import { motion } from 'framer-motion'
 import { Star, Truck, ShieldCheck, ChevronDown, Plus, Minus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { getProductBySlug } from '@/actions/product'
+import { useCart } from '@/components/cart/CartProvider'
 
 type Product = Awaited<ReturnType<typeof getProductBySlug>>
 
@@ -18,6 +19,7 @@ export default function ProductDetailPage() {
     const [selectedSize, setSelectedSize] = useState<string>('')
     const [quantity, setQuantity] = useState(1)
     const [loading, setLoading] = useState(true)
+    const { addItem } = useCart()
 
     useEffect(() => {
         async function loadProduct() {
@@ -136,6 +138,17 @@ export default function ProductDetailPage() {
                         </div>
                         <Button
                             disabled={!selectedSize}
+                            onClick={() => {
+                                addItem({
+                                    id: product.id,
+                                    title: product.title,
+                                    price: product.discountedPrice,
+                                    image: product.images.find(img => img.isDefault)?.url || product.images[0]?.url || '',
+                                    quantity: quantity,
+                                    size: selectedSize,
+                                    brand: product.brand
+                                })
+                            }}
                             className={`flex-1 text-lg py-8 uppercase tracking-widest font-bold rounded-none transition-all duration-300 ${selectedSize
                                 ? 'bg-amber-500 hover:bg-amber-600 text-white shadow-xl shadow-amber-500/20'
                                 : 'bg-slate-200 text-slate-400 cursor-not-allowed'

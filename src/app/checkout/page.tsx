@@ -3,14 +3,31 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronRight, ShieldCheck, CheckCircle2 } from 'lucide-react'
+import { useCart } from '@/components/cart/CartProvider'
 import { Button } from '@/components/ui/button'
 
 const STEPS = ['Shipping', 'Payment', 'Review']
 
 export default function CheckoutPage() {
+    const { items, totalPrice: subtotal, clearCart } = useCart()
     const [currentStep, setCurrentStep] = useState(0)
     const [isProcessing, setIsProcessing] = useState(false)
     const [paymentSuccess, setPaymentSuccess] = useState(false)
+
+    // Redirect to home if cart is empty and not already paid
+    // Ideally this would be a layout or higher order component, but doing it in render logic for simplicity
+    if (!paymentSuccess && items.length === 0) {
+        return (
+            <div className="min-h-screen pt-32 pb-24 text-center">
+                <h1 className="text-3xl font-serif text-slate-900 mb-4">Your cart is empty.</h1>
+                <Button onClick={() => window.location.href = '/'} className="bg-slate-900 text-white rounded-none py-6 font-bold uppercase tracking-widest text-xs">
+                    Return to Store
+                </Button>
+            </div>
+        )
+    }
+
+    const formatPrice = (price: number) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(price)
 
     const handleNext = async () => {
         if (currentStep < 2) {
@@ -22,12 +39,13 @@ export default function CheckoutPage() {
                 const res = await fetch('/api/razorpay', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ amount: 1999 })
+                    body: JSON.stringify({ amount: subtotal })
                 })
                 const order = await res.json()
 
                 // Mock successful payment after slight delay to simulate razorpay UI pop up.
                 setTimeout(() => {
+                    clearCart()
                     setIsProcessing(false)
                     setPaymentSuccess(true)
                 }, 1500)
@@ -150,13 +168,15 @@ export default function CheckoutPage() {
                             >
                                 <h2 className="text-2xl font-serif text-slate-900 mb-6">Review Order</h2>
                                 <div className="space-y-4">
-                                    <div className="flex justify-between pb-4 border-b border-slate-100">
-                                        <div>
-                                            <h4 className="font-semibold text-slate-900">Premium Men Apparel 12</h4>
-                                            <p className="text-sm text-slate-500">Size: M | Qty: 1</p>
+                                    {items.map((item) => (
+                                        <div key={`${item.id}-${item.size}`} className="flex justify-between pb-4 border-b border-slate-100 last:border-0 last:pb-0">
+                                            <div>
+                                                <h4 className="font-semibold text-slate-900">{item.title}</h4>
+                                                <p className="text-sm text-slate-500">Size: {item.size} | Qty: {item.quantity}</p>
+                                            </div>
+                                            <span className="font-bold text-slate-900">{formatPrice(item.price * item.quantity)}</span>
                                         </div>
-                                        <span className="font-bold text-slate-900">₹1,999</span>
-                                    </div>
+                                    ))}
                                 </div>
                             </motion.div>
                         )}
@@ -171,7 +191,7 @@ export default function CheckoutPage() {
                         <div className="space-y-4 text-sm mb-6">
                             <div className="flex justify-between text-slate-600">
                                 <span>Subtotal</span>
-                                <span className="font-medium text-slate-900">₹1,999</span>
+                                <span className="font-medium text-slate-900">{formatPrice(subtotal)}</span>
                             </div>
                             <div className="flex justify-between text-slate-600">
                                 <span>Shipping</span>
@@ -187,7 +207,7 @@ export default function CheckoutPage() {
 
                         <div className="flex justify-between items-center mb-8">
                             <span className="font-serif text-lg">Total</span>
-                            <span className="text-2xl font-bold text-slate-900">₹1,999</span>
+                            <span className="text-2xl font-bold text-slate-900">{formatPrice(subtotal)}</span>
                         </div>
 
                         <Button

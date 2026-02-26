@@ -5,42 +5,18 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Minus, Plus, ShoppingBag } from 'lucide-react'
+import { useCart } from '@/components/cart/CartProvider'
 import { Button } from '@/components/ui/button'
 
-export function CartDrawer({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) {
-    // Mock Cart Items
-    const [items, setItems] = useState([
-        {
-            id: "prod_1",
-            title: "Premium Men Apparel 12",
-            brand: "Zaraa",
-            price: 1999,
-            quantity: 1,
-            size: "M",
-            image: "https://images.unsplash.com/photo-1617137968427-85924c800a22?w=800&q=80"
-        }
-    ])
+export function CartDrawer() {
+    const { items, isCartOpen, setIsCartOpen, removeItem, updateQuantity, totalPrice: subtotal } = useCart()
+    const onClose = () => setIsCartOpen(false)
 
-    const subtotal = items.reduce((acc, item) => acc + (item.price * item.quantity), 0)
     const formatPrice = (price: number) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(price)
-
-    const updateQuantity = (id: string, delta: number) => {
-        setItems(items.map(item => {
-            if (item.id === id) {
-                const newQ = item.quantity + delta
-                return newQ > 0 ? { ...item, quantity: newQ } : item
-            }
-            return item
-        }))
-    }
-
-    const removeItem = (id: string) => {
-        setItems(items.filter(item => item.id !== id))
-    }
 
     return (
         <AnimatePresence>
-            {isOpen && (
+            {isCartOpen && (
                 <div className="fixed inset-0 z-[100]">
                     <motion.div
                         initial={{ opacity: 0 }}
@@ -97,7 +73,7 @@ export function CartDrawer({ isOpen, onClose }: { isOpen: boolean, onClose: () =
                                                         <p className="text-[10px] uppercase tracking-wider text-slate-500 mb-1">{item.brand}</p>
                                                         <h3 className="text-sm font-semibold text-slate-900 leading-tight pr-4">{item.title}</h3>
                                                     </div>
-                                                    <button onClick={() => removeItem(item.id)} className="text-slate-400 hover:text-red-500 transition-colors">
+                                                    <button onClick={() => removeItem(item.id, item.size)} className="text-slate-400 hover:text-red-500 transition-colors">
                                                         <X className="w-4 h-4" />
                                                     </button>
                                                 </div>
@@ -106,9 +82,9 @@ export function CartDrawer({ isOpen, onClose }: { isOpen: boolean, onClose: () =
 
                                                 <div className="mt-auto flex justify-between items-end">
                                                     <div className="flex items-center border border-slate-200">
-                                                        <button onClick={() => updateQuantity(item.id, -1)} className="p-2 text-slate-500 hover:text-amber-500"><Minus className="w-3 h-3" /></button>
+                                                        <button onClick={() => updateQuantity(item.id, item.size, item.quantity - 1)} className="p-2 text-slate-500 hover:text-amber-500"><Minus className="w-3 h-3" /></button>
                                                         <span className="w-6 text-center text-xs font-medium">{item.quantity}</span>
-                                                        <button onClick={() => updateQuantity(item.id, 1)} className="p-2 text-slate-500 hover:text-amber-500"><Plus className="w-3 h-3" /></button>
+                                                        <button onClick={() => updateQuantity(item.id, item.size, item.quantity + 1)} className="p-2 text-slate-500 hover:text-amber-500"><Plus className="w-3 h-3" /></button>
                                                     </div>
                                                     <p className="font-bold text-slate-900">{formatPrice(item.price)}</p>
                                                 </div>

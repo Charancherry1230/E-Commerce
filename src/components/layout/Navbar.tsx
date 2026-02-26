@@ -6,11 +6,13 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { ShoppingBag, Search, Menu, X, User, LogOut, ChevronDown } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useSession, signOut } from 'next-auth/react'
+import { useCart } from '@/components/cart/CartProvider'
 
 export function Navbar() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
     const [showUserMenu, setShowUserMenu] = useState(false)
     const { data: session } = useSession()
+    const { totalItems, setIsCartOpen } = useCart()
 
     return (
         <>
@@ -98,11 +100,16 @@ export function Navbar() {
                             </Link>
                         )}
 
-                        <button className="relative text-slate-900 hover:text-amber-500 transition-colors">
+                        <button
+                            className="relative text-slate-900 hover:text-amber-500 transition-colors"
+                            onClick={() => setIsCartOpen(true)}
+                        >
                             <ShoppingBag className="w-5 h-5" />
-                            <span className="absolute -top-1.5 -right-1.5 bg-amber-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
-                                0
-                            </span>
+                            {totalItems > 0 && (
+                                <span className="absolute -top-1.5 -right-1.5 bg-amber-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                                    {totalItems}
+                                </span>
+                            )}
                         </button>
                         <button
                             className="md:hidden text-slate-900"

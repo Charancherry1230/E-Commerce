@@ -2,19 +2,33 @@ import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
-// 100% verified working long-form IDs from Unsplash Fashion category
-const verifiedFashionIds = [
+// Category-specific verified Unsplash IDs
+const verifiedMenIds = [
+    '1512413807212-0051e89b8cc5', '1617137984095-74e4e5e361add', '1480455450282-e1f4dd45a16d',
+    '1492288991661-058aa541ff43', '1560241070-5dbfccc3076f', '1504593811411-9b17094d1ece',
+    '1488161628813-04466f872507', '1507003211169-0a1dd7228f2d', '1484515555198-46765da74e1e',
+    '1535044431057-bd7ef33f52a7'
+]
+
+const verifiedWomenIds = [
     '1483985988355-763728e1935b', '1529139574466-a303027c1d8b', '1603189343302-e603f7add05a',
     '1571513800374-df1bbe650e56', '1492707892479-7bc8d5a4ee93', '1490481651871-ab68de25d43d',
     '1509631179647-0177331693ae', '1571513722275-4b41940f54b8', '1445205170230-053b83016050',
-    '1596993100471-c3905dafa78e', '1601597565151-70c4020dc0e1', '1626386699888-b8865823b279',
-    '1608228088998-57828365d486', '1532453288672-3a27e9be9efd', '1523297467724-f6758d7124c5',
-    '1538329972958-465d6d2144ed', '1557022971-af40cfaf8f80', '1495385794356-15371f348c31',
-    '1515886657613-9f3515b0c78f', '1601762603339-fd61e28b698a', '1574015974293-817f0ebebb74',
-    '1539109136881-3be0616acf4b', '1485518882345-15568b007407', '1608748010899-18f300247112',
-    '1562151270-c7d22ceb586a', '1612215327100-60fc5c4d7938', '1603400521630-9f2de124b33b',
-    '1588117260148-b47818741c74', '1566206091558-7f218b696731', '1554412933-514a83d2f3c8'
+    '1596993100471-c3905dafa78e'
 ]
+
+const verifiedKidsIds = [
+    '1513258496038-59423b3f2334', '1519689680058-324335c77eba', '1471286174890-9c1122df39cb',
+    '1622290204634-2e91500f135b', '1503945438517-f65904a52ce6', '1540479859555-17af45c78602',
+    '1519340333755-56e9c1d04579', '1434389670869-c4e933c0bd46', '1504051771394-dd2ea012bd84',
+    '1473280025148-643f5b0cd93a'
+]
+
+function getIdsForCategory(slug: string) {
+    if (slug === 'men') return verifiedMenIds;
+    if (slug === 'kids') return verifiedKidsIds;
+    return verifiedWomenIds; // Default and for women/sale
+}
 
 const brandNames = [
     'ELARA Luxe', 'House of Pataudi', 'Royal Fabrik', 'Zivame Premium', 'Mango Elite',
@@ -74,10 +88,10 @@ async function main() {
             const discount = isSale ? 50 : 10
             const discountedPrice = originalPrice * (1 - discount / 100)
 
-            // Distribute the 30 verified IDs across all products
-            const idIdx = (i + (spec.cat.slug === 'men' ? 0 : spec.cat.slug === 'women' ? 10 : 20)) % verifiedFashionIds.length
-            const firstId = verifiedFashionIds[idIdx]
-            const secondId = verifiedFashionIds[(idIdx + 1) % verifiedFashionIds.length]
+            const categoryIds = getIdsForCategory(spec.cat.slug)
+            const idIdx = i % categoryIds.length
+            const firstId = categoryIds[idIdx]
+            const secondId = categoryIds[(idIdx + 1) % categoryIds.length]
 
             await prisma.product.create({
                 data: {
