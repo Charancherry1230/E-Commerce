@@ -3,6 +3,7 @@
 import { motion, Variants } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import Link from 'next/link'
 import Image from 'next/image'
 
 export function Hero() {
@@ -57,10 +58,12 @@ export function Hero() {
                 </motion.p>
 
                 <motion.div variants={itemVariants}>
-                    <Button className="bg-white text-slate-900 hover:bg-amber-500 hover:text-white px-8 py-6 rounded-none text-lg transition-all duration-300 group">
-                        Explore Collection
-                        <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                    </Button>
+                    <Link href="/category/men">
+                        <Button className="bg-white text-slate-900 hover:bg-amber-500 hover:text-white px-8 py-6 rounded-none text-lg transition-all duration-300 group">
+                            Explore Collection
+                            <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                        </Button>
+                    </Link>
                 </motion.div>
             </motion.div>
         </section>

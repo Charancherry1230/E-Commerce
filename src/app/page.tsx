@@ -1,6 +1,7 @@
 import { getTrendingProducts } from '@/actions/product'
 import { ProductCard } from '@/components/product/ProductCard'
 import { Hero } from '@/components/home/Hero'
+import Link from 'next/link'
 
 export default async function Home() {
   const trendingProducts = await getTrendingProducts(8)
@@ -19,9 +20,11 @@ export default async function Home() {
               Discover the most coveted pieces of the season. Handpicked styles blending local essence with global luxury.
             </p>
           </div>
-          <button className="text-sm font-bold uppercase tracking-widest text-slate-900 hover:text-amber-500 transition-colors pb-1 border-b-2 border-slate-900 hover:border-amber-500">
-            View All Collection
-          </button>
+          <Link href="/category/sale">
+            <button className="text-sm font-bold uppercase tracking-widest text-slate-900 hover:text-amber-500 transition-colors pb-1 border-b-2 border-slate-900 hover:border-amber-500">
+              View All Collection
+            </button>
+          </Link>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-16">
