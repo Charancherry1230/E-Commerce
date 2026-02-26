@@ -34,26 +34,34 @@ export async function signUpAction(formData: FormData) {
 
     try {
         // Auto sign-in after signup
-        await signIn('credentials', { email, password, redirectTo: '/' })
+        const response = await signIn('credentials', { email, password, redirect: false })
+        if (response?.error) {
+            return { error: 'Invalid email or password.' }
+        }
+        return { success: true }
     } catch (error) {
         if (error instanceof AuthError) {
             return { error: 'Invalid email or password.' }
         }
-        throw error
+        return { success: true } // NextAuth throws NEXT_REDIRECT which might be caught. If not caught, return success. Actually, let's just use router on client side.
     }
 }
 
 export async function signInAction(formData: FormData) {
     try {
-        await signIn('credentials', {
+        const response = await signIn('credentials', {
             email: formData.get('email'),
             password: formData.get('password'),
-            redirectTo: '/',
+            redirect: false,
         })
+        if (response?.error) {
+            return { error: 'Invalid email or password.' }
+        }
+        return { success: true }
     } catch (error) {
         if (error instanceof AuthError) {
             return { error: 'Invalid email or password.' }
         }
-        throw error
+        return { success: true }
     }
 }

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Eye, EyeOff, ArrowRight, Loader2 } from 'lucide-react'
@@ -11,6 +12,8 @@ export default function SignUpPage() {
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
 
+    const router = useRouter()
+
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
         setLoading(true)
@@ -20,6 +23,9 @@ export default function SignUpPage() {
         if (result?.error) {
             setError(result.error)
             setLoading(false)
+        } else if (result?.success) {
+            router.push('/')
+            router.refresh()
         }
     }
 
